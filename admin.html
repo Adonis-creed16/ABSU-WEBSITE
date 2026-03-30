@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | ABSU Control Panel</title>
+    <title>Admin Dashboard | ABSU Command Center</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,248 +13,51 @@
     <!-- Auth Shield -->
     <script src="auth.js"></script>
     <script>
-        // Redirect to portal if not authenticated as admin
-        if (!AuthSystem.protectRoute('admin')) { window.stop(); }
+        // Secure Route Protection
+        if (!AuthSystem.isAuthenticated() || AuthSystem.getUser().role !== 'admin') {
+            window.location.replace('portal.html?redirect=admin.html');
+        }
     </script>
     <!-- Main Style -->
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            background: #050505;
-        }
-
-        /* Sidebar Styles */
+        body { display: flex; min-height: 100vh; background: #050505; }
         .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background: rgba(255, 255, 255, 0.03);
-            border-right: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            display: flex;
-            flex-direction: column;
-            padding: 2.5rem;
-            z-index: 1000;
-            transition: var(--transition);
+            width: 280px; height: 100vh; position: fixed; left: 0; top: 0;
+            background: rgba(255, 255, 255, 0.03); border-right: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px); display: flex; flex-direction: column; padding: 2.5rem; z-index: 1000;
         }
-
-        .sidebar-logo {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 4rem;
-            text-align: center;
-        }
-
-        .sidebar-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
+        .sidebar-logo { font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 4rem; text-align: center; }
+        .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
         .sidebar-links a {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.6);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            transition: var(--transition);
-            cursor: pointer;
+            text-decoration: none; color: rgba(255, 255, 255, 0.6); display: flex;
+            align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-radius: 12px; transition: 0.3s; cursor: pointer;
         }
-
-        .sidebar-links a:hover, .sidebar-links a.active {
-            background: rgba(255, 215, 0, 0.1);
-            color: var(--accent);
-        }
-
-        .sidebar-exit { margin-top: auto; }
-        .sidebar-exit-link {
-            color: rgba(255, 255, 255, 0.4);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Content Area */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 3rem 5%;
-            transition: var(--transition);
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .header-title h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .header-title p { opacity: 0.6; }
-
-        .admin-profile {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.5rem 1.5rem;
-            border-radius: 100px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-        }
-
-        .admin-profile i { color: var(--accent); }
-
-        /* Dashboard Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .stat-card {
-            padding: 2.5rem;
-            text-align: left;
-        }
-
-        .stat-card i {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label { opacity: 0.6; }
-
-        /* Interactive Sections */
-        .admin-section { display: none; }
-        .admin-section.active { display: block; animation: fadeIn 0.5s ease; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Recent Activity Table */
-        .content-box {
-            padding: 3rem;
-            border-radius: 20px;
-            overflow-x: auto;
-        }
-
-        .content-box-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            color: white;
-            font-family: inherit;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0.5;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-
-        th {
-            text-align: left;
-            padding: 1rem;
-            color: var(--accent);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        td {
-            padding: 1.2rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            opacity: 0.8;
-        }
-
-        .status-pill {
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            background: rgba(52, 211, 153, 0.1);
-            color: #10b981;
-        }
-
-        .status-pill.pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .action-icon { cursor: pointer; padding: 0.5rem; transition: 0.3s; }
-        .action-icon:hover { color: var(--accent); }
-
-        /* Toast Message */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: -330px;
-            background: var(--accent);
-            color: var(--primary);
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 700;
-            z-index: 2000;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
+        .sidebar-links a:hover, .sidebar-links a.active { background: rgba(255, 215, 0, 0.1); color: var(--accent); }
+        .main-content { flex: 1; margin-left: 280px; padding: 3rem 5%; transition: 0.3s; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .stat-card { padding: 2.5rem; text-align: left; }
+        .stat-card i { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+        .stat-value { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .content-box { padding: 3rem; border-radius: 20px; overflow-x: auto; }
+        .content-box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .search-input { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 10px; color: white; position: relative; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { text-align: left; padding: 1rem; color: var(--accent); border-bottom: 1px solid var(--glass-border); }
+        td { padding: 1.2rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .status-pill { padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; background: rgba(52, 211, 153, 0.1); color: #10b981; }
+        .toast { position: fixed; bottom: 30px; right: -330px; background: var(--accent); color: var(--primary); padding: 1rem 2rem; border-radius: 12px; z-index: 2000; transition: 0.5s; }
         .toast.show { right: 30px; }
-
-        @media (max-width: 992px) {
-            .sidebar { width: 80px; padding: 2rem 1rem; }
-            .sidebar-logo { font-size: 1.2rem; }
-            .sidebar-links span { display: none; }
-            .main-content { margin-left: 80px; }
-            .sidebar-exit-link span { display: none; }
-        }
+        .sidebar-exit-link { margin-top: auto; color: rgba(255, 255, 255, 0.4); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; }
+        @media (max-width: 992px) { .sidebar { width: 80px; padding: 2rem 1rem; } .sidebar-links span, .sidebar-logo, .sidebar-exit-link span { display: none; } .main-content { margin-left: 80px; } }
     </style>
 </head>
 <body id="top">
     <!-- Site Preloader -->
     <div id="site-preloader">
         <div class="preloader-logo">ABSU</div>
-        <div class="preloader-content">
-            <div class="preloader-bar"></div>
-        </div>
+        <div class="preloader-content"><div class="preloader-bar"></div></div>
         <div class="preloader-tagline">Excellence in Service</div>
     </div>
 
@@ -262,191 +65,90 @@
     <aside class="sidebar">
         <div class="sidebar-logo">ABSU</div>
         <ul class="sidebar-links">
-            <li><a class="nav-admin active" data-section="dashboard-section"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
-            <li><a class="nav-admin" data-section="students-section"><i class="fas fa-users"></i> <span>Students</span></a></li>
-            <li><a class="nav-admin" data-section="faculty-section"><i class="fas fa-chalkboard-teacher"></i> <span>Faculty</span></a></li>
-            <li><a class="nav-admin" data-section="apps-section"><i class="fas fa-file-invoice"></i> <span>Applications</span></a></li>
-            <li><a href="index.html"><i class="fas fa-home"></i> <span>University Site</span></a></li>
-            <li><a class="nav-admin" data-section="settings-section"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li><a class="nav-admin active" onclick="switchSection('dashboard')"><i class="fas fa-th-large"></i> <span>Overview</span></a></li>
+            <li><a class="nav-admin" onclick="switchSection('students')"><i class="fas fa-users"></i> <span>Students</span></a></li>
+            <li><a class="nav-admin" onclick="switchSection('blog')"><i class="fas fa-newspaper"></i> <span>Blog Posts</span></a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a></li>
         </ul>
-        <div class="sidebar-exit">
-            <a href="#" onclick="AuthSystem.logout()" class="sidebar-exit-link">
-                <i class="fas fa-sign-out-alt"></i> <span>Secure Logout</span>
-            </a>
-        </div>
+        <a href="#" onclick="AuthSystem.logout()" class="sidebar-exit-link">
+            <i class="fas fa-sign-out-alt"></i> <span>Secure Logout</span>
+        </a>
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content" id="adminMain">
         <div class="dashboard-header">
             <div class="header-title">
-                <h1 id="current-title">Admin Overview</h1>
-                <p>Abia State University - Institutional Access</p>
-            </div>
-            <div class="admin-profile">
-                <i class="fas fa-user-shield"></i>
-                <span id="admin-user-id">Administrator Access</span>
+                <h1 id="section-title">Admin Overview</h1>
+                <p>Institutional Command Center</p>
             </div>
         </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboard-section" class="admin-section active">
-            <!-- Stats -->
+        <div id="dashboard" class="admin-section">
             <div class="stats-grid">
-                <div class="stat-card glass-effect">
-                    <i class="fas fa-user-graduate"></i>
-                    <div class="stat-value">32,450</div>
-                    <div class="stat-label">Active Students</div>
-                </div>
-                <div class="stat-card glass-effect">
-                    <i class="fas fa-file-alt"></i>
-                    <div class="stat-value">1,248</div>
-                    <div class="stat-label">New Applications</div>
-                </div>
-                <div class="stat-card glass-effect">
-                    <i class="fas fa-university"></i>
-                    <div class="stat-value">10</div>
-                    <div class="stat-label">Faculties</div>
-                </div>
-                <div class="stat-card glass-effect">
-                    <i class="fas fa-chart-line"></i>
-                    <div class="stat-value">94.8%</div>
-                    <div class="stat-label">Metric Health</div>
-                </div>
+                <div class="stat-card glass-effect"><i class="fas fa-user-graduate"></i><div class="stat-value" id="statStudents">0</div><div class="stat-label">Total Students</div></div>
+                <div class="stat-card glass-effect"><i class="fas fa-file-alt"></i><div class="stat-value" id="statPosts">0</div><div class="stat-label">Blog Posts</div></div>
+                <div class="stat-card glass-effect"><i class="fas fa-university"></i><div class="stat-value" id="statFaculties">10</div><div class="stat-label">Active Faculties</div></div>
+                <div class="stat-card glass-effect"><i class="fas fa-chart-line"></i><div class="stat-value" id="statHealth">98.5%</div><div class="stat-label">System Health</div></div>
             </div>
 
-            <!-- Recent Registrations -->
             <div class="content-box glass-effect">
-                <div class="content-box-header">
-                    <h2>Recent Faculty Registrations</h2>
-                    <div class="search-container">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" id="studentSearch" placeholder="Filter records...">
-                    </div>
-                </div>
+                <div class="content-box-header"><h2>Enrolled Academic Identities</h2></div>
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Student Name</th>
-                            <th>Matrix ID</th>
-                            <th>Faculty</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentTableBody">
-                        <tr>
-                            <td>Chimaobi Okoro</td>
-                            <td>ABSU/ENG/23/001</td>
-                            <td>Engineering</td>
-                            <td><span class="status-pill">Verified</span></td>
-                            <td><i class="fas fa-check action-icon"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Ifeoma Nwosu</td>
-                            <td>ABSU/SCI/23/042</td>
-                            <td>Biological Sci</td>
-                            <td><span class="status-pill">Verified</span></td>
-                            <td><i class="fas fa-check action-icon"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Musa Bello</td>
-                            <td>ABSU/LAW/23/118</td>
-                            <td>Law</td>
-                            <td><span class="status-pill pending">Pending</span></td>
-                            <td><i class="fas fa-check action-icon verify-btn" title="Approve Student"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Okonkwo Emeka</td>
-                            <td>ABSU/ENG/23/089</td>
-                            <td>Engineering</td>
-                            <td><span class="status-pill">Verified</span></td>
-                            <td><i class="fas fa-check action-icon"></i></td>
-                        </tr>
-                    </tbody>
+                    <thead><tr><th>Name</th><th>Email</th><th>Faculty</th><th>Department</th><th>Status</th></tr></thead>
+                    <tbody id="studentTableBody"></tbody>
                 </table>
-            </div>
-        </div>
-
-        <!-- Students Section -->
-        <div id="students-section" class="admin-section">
-            <div class="content-box glass-effect">
-                <h2>All Enrolled Students</h2>
-                <p class="opacity-70 mt-4">Database view for all 32,450 academic records.</p>
-            </div>
-        </div>
-
-        <!-- Faculty Section -->
-        <div id="faculty-section" class="admin-section">
-            <div class="content-box glass-effect">
-                <h2>Faculty Management</h2>
-                <p class="opacity-70 mt-4">Administrative portal for deans and departmental heads.</p>
-            </div>
-        </div>
-
-        <!-- Applications Section -->
-        <div id="apps-section" class="admin-section">
-            <div class="content-box glass-effect">
-                <h2>Admissions Queue</h2>
-                <p class="opacity-70 mt-4">Batch processing for the 2025/2026 academic entry.</p>
-            </div>
-        </div>
-
-        <!-- Settings Section -->
-        <div id="settings-section" class="admin-section">
-            <div class="content-box glass-effect">
-                <h2>Platform Settings</h2>
-                <p class="opacity-70 mt-4">System configuration and security protocols.</p>
             </div>
         </div>
     </main>
 
-    <div id="adminToast" class="toast">Action completed successfully!</div>
+    <div id="adminToast" class="toast">Action completed!</div>
 
     <script src="main.js"></script>
     <script>
-        // Tab switching and verification logic
-        const adminLinks = document.querySelectorAll('.nav-admin');
-        const adminSections = document.querySelectorAll('.admin-section');
-        const titleEl = document.getElementById('current-title');
-
-        adminLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                const target = link.getAttribute('data-section');
-                adminLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                adminSections.forEach(s => s.classList.remove('active'));
-                document.getElementById(target).classList.add('active');
-                titleEl.textContent = link.innerText.trim();
-            });
+        // Administrative Orchestrator
+        document.addEventListener('DOMContentLoaded', async () => {
+            await Promise.all([loadStats(), loadStudents()]);
+            switchSection('dashboard');
         });
 
-        const verifyBtns = document.querySelectorAll('.verify-btn');
-        const toast = document.getElementById('adminToast');
-        verifyBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const status = btn.closest('tr').querySelector('.status-pill');
-                if (status.classList.contains('pending')) {
-                    status.textContent = 'Verified';
-                    status.classList.remove('pending');
-                    showToast('Record verified successfully!');
-                }
-            });
-        });
-
-        function showToast(msg) {
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/auth/admin/stats');
+                const data = await res.json();
+                document.getElementById('statStudents').innerText = data.students;
+                document.getElementById('statPosts').innerText = data.posts;
+                document.getElementById('statFaculties').innerText = data.faculties;
+                document.getElementById('statHealth').innerText = data.health;
+            } catch(e) { console.error('Stat Retrieval Failure'); }
         }
 
-        const searchInput = document.getElementById('studentSearch');
-        searchInput.addEventListener('keyup', (e) => {
-            const term = e.target.value.toLowerCase();
-            document.querySelectorAll('#studentTableBody tr').forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(term) ? 'table-row' : 'none';
-            });
-        });
+        async function loadStudents() {
+            try {
+                const res = await fetch('/api/auth/admin/students');
+                const students = await res.json();
+                const tbody = document.getElementById('studentTableBody');
+                tbody.innerHTML = '';
+                students.forEach(s => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${s.name}</td>
+                        <td>${s.email}</td>
+                        <td>${s.faculty || 'Unassigned'}</td>
+                        <td>${s.department || 'Unassigned'}</td>
+                        <td><span class="status-pill">Active</span></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch(e) { console.error('Identity Retrieval Failure'); }
+        }
+
+        function switchSection(id) {
+            document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+            const target = document.getElementById(id);
+            if (target) target.style.display = 'block';
+            document.getElementById('section-title').innerText = id.charAt(0).toUpperCase() + id.slice(1) + ' Hub';
+        }
     </script>
 </body>
 </html>

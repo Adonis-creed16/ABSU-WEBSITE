@@ -49,4 +49,32 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// @desc Get Admin Dashboard Stats
+// @route GET /api/auth/admin/stats
+router.get('/admin/stats', async (req, res) => {
+    try {
+        const totalStudents = await User.countDocuments({ role: 'student' });
+        const totalPosts = await require('../models/Post').countDocuments();
+        res.json({
+            students: totalStudents,
+            posts: totalPosts,
+            faculties: 10, // Mock for now
+            health: '98.5%'
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// @desc Get All Students
+// @route GET /api/auth/admin/students
+router.get('/admin/students', async (req, res) => {
+    try {
+        const students = await User.find({ role: 'student' }).select('-password');
+        res.json(students);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router;
