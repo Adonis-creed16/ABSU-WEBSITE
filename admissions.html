@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions | Abia State University</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Auth Shield -->
+    <script src="auth.js"></script>
+    <style>
+        .admissions-hero { padding: 12rem 10% 6rem; }
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .process-card { padding: 3.5rem; text-align: center; position: relative; }
+        .process-card::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -1rem;
+            width: 2rem;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .process-card:last-child::after { display: none; }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin: 0 auto 2rem;
+        }
+        .center-btn-box { text-align: center; margin-top: 4rem; }
+
+        @media (max-width: 992px) {
+            .process-card::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <nav class="glass-effect">
+            <div class="logo">ABSU</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <a href="portal.html" class="cta-btn">Portal Access</a>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="chat.html">Chat</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="portal.html">Portal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Scroll Top Button -->
+    <button type="button" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="admissions-hero">
+        <h1 class="section-title">Join Our Community</h1>
+        <p class="opacity-70">A step-by-step guide to becoming an ABSU undergraduate student.</p>
+
+        <div class="process-grid">
+            <div class="glass-effect process-card">
+                <div class="step-number">01</div>
+                <h3>Check Eligibility</h3>
+                <p class="opacity-70">Ensure you have the required O'Level results and JAMB score for your preferred course.</p>
+            </div>
+            <div class="glass-effect process-card">
+                <div class="step-number">02</div>
+                <h3>Apply Online</h3>
+                <p class="opacity-70">Complete the online pre-admission screening form on the university portal.</p>
+            </div>
+            <div class="glass-effect process-card">
+                <div class="step-number">03</div>
+                <h3>Screening Result</h3>
+                <p class="opacity-70">Attend the internal aptitude test and check your screening scores online.</p>
+            </div>
+            <div class="glass-effect process-card">
+                <div class="step-number">04</div>
+                <h3>Get Admitted</h3>
+                <p class="opacity-70">Check your admission status on JAMB CAPS and accept your letter of offer.</p>
+            </div>
+        </div>
+
+        <div class="center-btn-box">
+            <a href="portal.html" class="cta-btn large">Begin Your Application</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h3 class="footer-title">ABSU</h3>
+                <p class="footer-desc">Founded in 1981, Abia State University continues to be a beacon of light and academic excellence in Western Africa.</p>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="calendar.html">Academic Calendar</a></li>
+                    <li><a href="portal.html">Student Portal</a></li>
+                    <li><a href="admin.html" class="footer-admin-link">Admin Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Contact Us</h4>
+                <p class="footer-desc">Uturu, Abia State, Nigeria</p>
+                <p class="footer-desc">Email: info@absu.edu.ng</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Abia State University. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

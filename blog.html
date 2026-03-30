@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABSU Institutional Blog | Information Center</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Auth Shield -->
+    <script src="auth.js"></script>
+    <style>
+        .blog-section { padding: 10rem 10% 5rem; }
+        .blog-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+        #postModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        .modal-card { width: 100%; max-width: 600px; padding: 4rem; }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 1.1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+        }
+        .blog-card {
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+        .blog-img-box {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 215, 0, 0.05);
+        }
+        .blog-content { padding: 2.5rem; }
+        .blog-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 700;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .blog-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        .modal-btn-group { display: flex; gap: 1rem; }
+        .modal-btn-cancel { background: transparent; border: 2px solid white; color: white; }
+
+        @media (max-width: 600px) {
+            .blog-section { padding-top: 8rem; }
+        }
+    </style>
+</head>
+<body id="top">
+    <!-- Site Preloader -->
+    <div id="site-preloader">
+        <div class="preloader-logo">ABSU</div>
+        <div class="preloader-content">
+            <div class="preloader-bar"></div>
+        </div>
+        <div class="preloader-tagline">Excellence in Service</div>
+    </div>
+
+    <header>
+        <nav class="glass-effect">
+            <div class="logo">ABSU</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <a href="portal.html" class="cta-btn">Portal Access</a>
+        </nav>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="chat.html">Chat</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="portal.html">Portal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <button type="button" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+    <section class="blog-section">
+        <div class="blog-controls">
+            <div>
+                <h1 class="mb-2">University Blog</h1>
+                <p class="opacity-70">Stay informed with real-time academic information.</p>
+            </div>
+            <button type="button" class="cta-btn" id="btnCreatePost" style="border: none;">Create Post</button>
+        </div>
+
+        <div id="blog-error" class="error-message">❌ Failed to connect to institutional servers. Please check your network and try again.</div>
+
+        <div class="blog-grid" id="blogContainer">
+            <!-- Skeletons initially matched with actual UI -->
+            <div class="skeleton-blog-card">
+                <div class="skeleton skeleton-img"></div>
+                <div class="skeleton-blog-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div class="skeleton-blog-card">
+                <div class="skeleton skeleton-img"></div>
+                <div class="skeleton-blog-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div class="skeleton-blog-card">
+                <div class="skeleton skeleton-img"></div>
+                <div class="skeleton-blog-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Skeleton (Match UI) -->
+        <div id="loading-more" class="mt-4" style="display: none;">
+            <div class="blog-grid">
+                <div class="skeleton-blog-card">
+                    <div class="skeleton skeleton-img"></div>
+                    <div class="skeleton-blog-content">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+                <div class="skeleton-blog-card">
+                    <div class="skeleton skeleton-img"></div>
+                    <div class="skeleton-blog-content">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-more-posts" class="no-more-data">End of institutional news feed.</div>
+    </section>
+
+    <!-- Post Modal -->
+    <div id="postModal">
+        <div class="glass-effect modal-card">
+            <h2 class="mb-2">Institutional Announcement</h2>
+            <form id="postForm">
+                <input type="text" id="postTitle" class="form-input" placeholder="Title..." required>
+                <select id="postCategory" class="form-input">
+                    <option value="Academic">Academic</option>
+                    <option value="News">News</option>
+                    <option value="Faculty">Faculty</option>
+                    <option value="Event">Event</option>
+                </select>
+                <textarea id="postContent" class="form-textarea" rows="6" placeholder="Content..." required></textarea>
+                <div class="modal-btn-group">
+                    <button type="submit" class="cta-btn" style="flex:1;">Publish</button>
+                    <button type="button" class="cta-btn modal-btn-cancel" id="btnCloseModal" style="flex:1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div><h3 class="footer-title">ABSU</h3><p class="footer-desc">Excellence in Service since 1981.</p></div>
+            <div>
+                <h4 class="footer-links-title">Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="portal.html">Portal</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Contact</h4>
+                <p class="footer-desc">Uturu, Abia State</p>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 ABSU. All rights reserved.</p></div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        let currentPage = 1;
+        let isFetching = false;
+        let hasMorePosts = true;
+        
+        const blogContainer = document.getElementById('blogContainer');
+        const loadingMore = document.getElementById('loading-more');
+        const endIndicator = document.getElementById('no-more-posts');
+        const errorBox = document.getElementById('blog-error');
+
+        loadBlogPosts(true);
+
+        async function loadBlogPosts(isInitial = false) {
+            if (isFetching || !hasMorePosts) return;
+            isFetching = true;
+            if (!isInitial) loadingMore.style.display = 'block';
+            errorBox.style.display = 'none';
+
+            try {
+                const res = await fetch(`/api/posts?page=${currentPage}&limit=6`);
+                if (!res.ok) throw new Error('API Stability Warning');
+                const data = await res.json();
+                if (isInitial) blogContainer.innerHTML = '';
+                data.posts.forEach(post => renderPost(post));
+                currentPage++;
+                hasMorePosts = data.hasMore;
+                if (!hasMorePosts) endIndicator.style.display = 'block';
+            } catch (err) {
+                errorBox.style.display = 'block';
+            } finally {
+                isFetching = false;
+                loadingMore.style.display = 'none';
+            }
+        }
+
+        function renderPost(post) {
+            const card = document.createElement('div');
+            card.className = 'glass-effect blog-card';
+            card.innerHTML = `
+                <div class="blog-img-box"></div>
+                <div class="blog-content">
+                    <span class="blog-tag">${post.category}</span>
+                    <h3>${post.title}</h3>
+                    <p style="opacity: 0.7; margin-top: 1rem;">${post.content}</p>
+                    <div class="blog-author">
+                        <i class="fas fa-user-circle"></i>
+                        <span>By ${post.user.name} | ${new Date(post.createdAt).toLocaleDateString()}</span>
+                    </div>
+                </div>
+            `;
+            blogContainer.appendChild(card);
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        const handleInfiniteScroll = debounce(() => {
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            if (scrollTop + clientHeight >= scrollHeight - 300) {
+                loadBlogPosts();
+            }
+        }, 150);
+
+        window.addEventListener('scroll', handleInfiniteScroll);
+
+        const postModal = document.getElementById('postModal');
+        document.getElementById('btnCreatePost').addEventListener('click', () => {
+            if (!AuthSystem.isAuthenticated()) {
+                window.location.href = 'portal.html';
+                return;
+            }
+            postModal.style.display = 'flex';
+        });
+
+        document.getElementById('btnCloseModal').addEventListener('click', () => postModal.style.display = 'none');
+
+        document.getElementById('postForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('absu_auth_token');
+            const postData = {
+                title: document.getElementById('postTitle').value,
+                category: document.getElementById('postCategory').value,
+                content: document.getElementById('postContent').value
+            };
+            try {
+                const res = await fetch('/api/posts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(postData)
+                });
+                if (res.ok) {
+                    postModal.style.display = 'none';
+                    currentPage = 1;
+                    hasMorePosts = true;
+                    loadBlogPosts(true);
+                }
+            } catch (err) {
+                alert('Server Communication Error');
+            }
+        });
+    </script>
+</body>
+</html>

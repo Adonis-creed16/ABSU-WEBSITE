@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Abia State University</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-section { padding-top: 10rem; }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .contact-form-box { padding: 3rem; }
+        .form-title { margin-bottom: 2rem; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .contact-input, .contact-textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+        }
+        .contact-input:focus, .contact-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        ::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+        .info-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            padding: 2.5rem;
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        @media (max-width: 992px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <nav class="glass-effect">
+            <div class="logo">ABSU</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <a href="portal.html" class="cta-btn">Student Portal</a>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="chat.html">Chat</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="portal.html">Portal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Scroll Top Button -->
+    <button type="button" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+    <section class="contact-section">
+        <h1 class="section-title">Get in Touch</h1>
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="glass-effect contact-form-box">
+                <h3 class="form-title text-accent">Send an Inquiry</h3>
+                <form id="contact-form">
+                    <div class="form-row">
+                        <input type="text" class="contact-input" placeholder="First Name" required>
+                        <input type="text" class="contact-input" placeholder="Last Name" required>
+                    </div>
+                    <input type="email" class="contact-input" placeholder="Email Address" required>
+                    <input type="text" class="contact-input" placeholder="Subject">
+                    <textarea rows="6" class="contact-textarea" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="cta-btn" style="border: none; cursor: pointer; width: 100%;">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="info-stack">
+                <div class="glass-effect info-card">
+                    <i class="fas fa-map-marker-alt info-icon"></i>
+                    <div>
+                        <h3>Headquarters</h3>
+                        <p class="opacity-70">P.M.B. 2000, Uturu, Abia State, Nigeria</p>
+                    </div>
+                </div>
+                <div class="glass-effect info-card">
+                    <i class="fas fa-envelope info-icon"></i>
+                    <div>
+                        <h3>Email Us</h3>
+                        <p class="opacity-70">General inquiries: info@absu.edu.ng<br>Support: registry@absu.edu.ng</p>
+                    </div>
+                </div>
+                <div class="glass-effect info-card">
+                    <i class="fas fa-phone-alt info-icon"></i>
+                    <div>
+                        <h3>Call Support</h3>
+                        <p class="opacity-70">+234 803 123 4567<br>+234 812 987 6543</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h3 class="footer-title">ABSU</h3>
+                <p class="footer-desc">Founded in 1981, Abia State University continues to be a beacon of light and academic excellence in Western Africa.</p>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="calendar.html">Academic Calendar</a></li>
+                    <li><a href="portal.html">Student Portal</a></li>
+                    <li><a href="admin.html" class="footer-admin-link">Admin Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Contact Us</h4>
+                <p class="footer-desc">Uturu, Abia State, Nigeria</p>
+                <p class="footer-desc">Email: info@absu.edu.ng</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Abia State University. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for contacting ABSU! We will get back to you shortly.');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academics & Research | Abia State University</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .academics-hero {
+            padding: 12rem 10% 6rem;
+            text-align: center;
+        }
+
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .faculty-card {
+            padding: 3rem;
+            transition: var(--transition);
+        }
+
+        .faculty-card:hover { transform: translateY(-10px); }
+
+        .faculty-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .research-section {
+            padding: 6rem 10%;
+            margin-top: 4rem;
+        }
+
+        .research-card {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            padding: 4rem;
+        }
+
+        @media (max-width: 992px) {
+            .research-card { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <nav class="glass-effect">
+            <div class="logo">ABSU</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <a href="portal.html" class="cta-btn">Student Portal</a>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="chat.html">Chat</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="portal.html">Portal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Scroll Top Button -->
+    <button type="button" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="academics-hero">
+        <h1 class="section-title">Academic Excellence</h1>
+        <p class="opacity-70">Empowering the next generation through rigorous research and innovative learning.</p>
+
+        <div class="faculty-grid">
+            <div class="glass-effect faculty-card">
+                <i class="fas fa-microchip faculty-icon"></i>
+                <h3 class="mb-2">Engineering &amp; Tech</h3>
+                <p class="opacity-70">Focusing on Computer Engineering, Electrical, and Mechanical innovations for a digital Africa.</p>
+            </div>
+            <div class="glass-effect faculty-card">
+                <i class="fas fa-briefcase-medical faculty-icon"></i>
+                <h3 class="mb-2">Medical Sciences</h3>
+                <p class="opacity-70">World-class clinical training and research in public health and modern medicine.</p>
+            </div>
+            <div class="glass-effect faculty-card">
+                <i class="fas fa-gavel faculty-icon"></i>
+                <h3 class="mb-2">Faculty of Law</h3>
+                <p class="opacity-70">Developing legal minds that uphold justice and shape constitutional frameworks.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="research-section">
+        <div class="glass-effect research-card">
+            <div class="info-stack">
+                <h2 class="text-accent">Innovative Research Labs</h2>
+                <p class="opacity-70">Our state-of-the-art research facilities enable students and faculty to solve real-world problems in biotechnology, AI, and environmental sustainability.</p>
+                <div class="mt-4">
+                    <a href="contact.html" class="cta-btn">Join a Lab</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h3 class="footer-title">ABSU</h3>
+                <p class="footer-desc">Founded in 1981, Abia State University continues to be a beacon of light and academic excellence in Western Africa.</p>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="calendar.html">Academic Calendar</a></li>
+                    <li><a href="portal.html">Student Portal</a></li>
+                    <li><a href="admin.html" class="footer-admin-link">Admin Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-links-title">Contact Us</h4>
+                <p class="footer-desc">Uturu, Abia State, Nigeria</p>
+                <p class="footer-desc">Email: info@absu.edu.ng</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Abia State University. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
