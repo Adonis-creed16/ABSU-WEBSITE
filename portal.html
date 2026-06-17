@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Portal | Abia State University</title>
     <!-- Google Fonts -->
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
@@ -197,10 +199,28 @@
     </section>
 
     <footer class="site-footer">
-        <div class="footer-grid">
-            <div><h3 class="footer-title">ABSU</h3><p class="footer-desc">Excellence in Service since 1981.</p></div>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3 class="footer-title">Abia State University</h3>
+                <p class="footer-desc">Excellence in Service since 1981.</p>
+            </div>
+
+            <nav class="footer-nav" aria-label="Footer Navigation">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="portal.html">Student Portal</a></li>
+                    <li><a href="admin.html">Admin Dashboard</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>Uturu, Abia State, Nigeria</p>
+                <p><a href="mailto:info@absu.edu.ng">info@absu.edu.ng</a></p>
+            </div>
         </div>
-        <div class="footer-bottom"><p>&copy; 2026 Abia State University. All rights reserved.</p></div>
+        <div class="footer-bottom"><p>&copy; 2026 Abia State University</p></div>
     </footer>
 
     <script src="main.js"></script>
